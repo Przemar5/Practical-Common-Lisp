@@ -1,0 +1,49 @@
+(let ((in (open "/emacs-w64-25.3-O2-with-modules/emacs/bin/Lessons/Practical Common Lisp/text.txt"
+		:if-does-not-exist nil)))
+  (format t "~a~%" (read-line in))
+  (close in))
+
+
+(let ((in (open "/some/file/name.txt""/emacs-w64-25.3-O2-with-modules/emacs/bin/Lessons/Practical Common Lisp/text.txt"
+		:if-does-not-exist nil)))
+  (when in
+    (loop for line = (read-line in nil)
+         while line do (format t "~a~%" line))
+    (close in)))
+
+(defparameter *s* (open "/emacs-w64-25.3-O2-with-modules/emacs/bin/Lessons/Practical Common Lisp/text.txt"))
+
+(read *s*)
+(close *s*)
+
+(open  "/emacs-w64-25.3-O2-with-modules/emacs/bin/Lessons/Practical Common Lisp/text.txt"
+       :direction :output
+       :if-exists :supersede)
+
+(defun read-expr ()
+  (let ((in (open "/emacs-w64-25.3-O2-with-modules/emacs/bin/Lessons/Practical Common Lisp/text.txt"
+		  :if-does-not-exist nil)))
+    (format t "~a~%" (read-line in))
+    (close in)))
+
+
+
+
+
+
+
+
+(let ((in (open "/emacs-w64-25.3-O2-with-modules/emacs/bin/Lessons/Practical Common Lisp/text.txt"
+		:if-does-not-exist nil)))
+  (eval (read-line in))
+  (close in))
+
+(let ((in (open "/emacs-w64-25.3-O2-with-modules/emacs/bin/Lessons/Practical Common Lisp/text.lisp"
+		:if-does-not-exist nil)))
+  (eval (read in))
+  (close in))
+
+(let ((out (open "/emacs-w64-25.3-O2-with-modules/emacs/bin/Lessons/Practical Common Lisp/text.lisp"
+	   :direction :output
+	   :if-exists :supersede)))
+  ())

@@ -1,0 +1,52 @@
+(define-condition malformed-log-entry-error (error)
+  ((text :initarg :text :reader text)))
+
+(defun parse-log-entry (text)
+  (if (well-formed-log-entry-p text)
+    (make-instance 'log-entry ...)
+    (error 'malformed-log-entry-error :text text)))
+
+(handler-case
+    (progn
+      (do-stuff)
+      (do-more-stuff))
+  (some-exception (se) (recover se)))
+
+(defun parse-log-file (file)
+  (with-open-file (in file :direction :input)
+    (loop for text = (read-line in nil nil) while text
+       for entry = (restart-case (parse-log-entry text)
+                     (skip-log-entry () nil))
+       when entry collect it)))
+
+
+(defun complement (fun)
+  (lambda (x)
+    (not (funcall fun x))))
+
+(defun foo (x)
+  (* x 2))
+
+(funcall #'(lambda (x) (foo x)) 1 2 3)
+
+
+(defun foo (fn seq) 
+  (mapcar (function fn) seq))
+
+
+(let ((fn #'sqrt))
+  (mapcar fn '(4 9 16 25)))
+
+(defun foo (fn seq) 
+  (mapcar fn seq))
+
+
+(defun is-prime (n &optional i)
+  (dotimes (i (- (floor (sqrt n)) 1))
+    (if (>= i 2)
+	(if (= (mod n i) 0)
+	    nil
+	    (progn (decf i)
+		   (is-prime n i)))
+	t)))
+
